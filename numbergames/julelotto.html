@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Number Games - Jule Lotto</title>
+    <link rel="icon" type="image/svg+xml" href="https://danskespil.dk/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="../mermaid.css">
+    <style>
+        .mermaid {
+            top: 45px;
+            width: auto !important;
+            height: auto !important;
+        }
+
+        .mermaid svg {
+            width: 100% !important;
+            max-width: none !important;
+            max-height: none !important;
+            height: auto !important;
+        }
+
+        .home {
+            position: fixed;
+        }
+
+        .mermaid .cluster rect {
+            fill: #fffff0;
+            stroke: black !important;
+        }
+
+        .mermaid .cluster .nodeLabel {
+            color: black !important;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .mermaid .edgeLabel {
+            background-color: #d7e0ff !important;
+            text-align: left;
+            opacity: 1 !important;
+        }
+
+        .mermaid .edgeLabel p {
+            padding: 0 0.5rem;
+            font-size: 13px;
+        }
+
+        .mermaid .node polygon {
+            fill: #d7e0ff !important;
+            stroke: #d7e0ff !important;
+        }
+
+        .mermaid .node polygon + g .nodeLabel {
+            color: black !important;
+        }
+
+        .mermaid .node rect {
+            fill: #12a05e !important;
+            stroke: transparent !important;
+            filter: none !important;
+        }
+
+        .mermaid .node rect + g .nodeLabel {
+            color: white !important;
+        }
+
+        .mermaid .label {
+            padding: 1rem 0.25rem !important;
+        }
+
+        .mermaid svg {
+            overflow: auto !important;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="title">Jule Lotto - Flow</div>
+<div class="version">Vers. 20261026.1</div>
+<a class="home" href="/">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+         stroke-linejoin="round" class="lucide lucide-house-icon lucide-house">
+        <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/>
+        <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    </svg>
+</a>
+<div class="mermaid"></div>
+
+<script type="text/javascript">
+  const el = document.querySelector('.mermaid');
+  el.innerHTML = `
+flowchart TB
+
+style W51_Lotto_JokerWithJuleLotto fill:red
+style W51_Lotto_ReceiptWithJuleLotto fill:red
+style W51_LottoWeekAndJuleLotto_Info fill:darkred
+style W51_LottoWeekAndJuleLotto_Joker fill:red
+style W51_LottoWeekAndJuleLotto_Receipt fill:red
+
+style W52_Lotto_Weeks fill:red
+style W52_LottoJuleLotto_AddLotto fill:orange
+style W52_LottoJuleLotto_ReceiptWithLotto fill:red
+style W52_JuleLotto_ReceiptWithLotto fill:red
+
+W51_TopSpot@{ img: "julelotto/landingpage-week51.png", label: "Top Spot", pos: "b", w: 200, h: 168, constraint: "on" }
+W51_LandingPage@{ img: "julelotto/landingpage-week51.png", label: "Landing page", pos: "b", w: 200, h: 168, constraint: "on" }
+W51_Lotto_Rows@{ img: "julelotto/lotto-rows.png", label: "Antal rækker", pos: "b", w: 200, h: 184, constraint: "on" }
+W51_Lotto_Weeks@{ img: "julelotto/lotto-weeks.png", label: "Antal uger", pos: "b", w: 200, h: 125, constraint: "on" }
+W51_Lotto_JuleLottoPopover@{ img: "julelotto/julelotto-addon-popover.png", label: "Jule Lotto tilkøb popover", pos: "b", w: 200, h: 125, constraint: "on" }
+W51_Lotto_Joker@{ img: "julelotto/lotto-joker.png", label: "Joker tilvalg", pos: "b", w: 200, h: 125, constraint: "on" }
+W51_Lotto_Confirm@{ img: "julelotto/lotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 142, constraint: "on" }
+W51_Lotto_Receipt@{ img: "julelotto/lotto-receipt.png", label: "En kvittering - Lotto", pos: "b", w: 200, h: 125, constraint: "on" }
+W51_Lotto_JokerWithJuleLotto[Joker tilvalg]
+W51_Lotto_ConfirmWithJuleLotto@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
+W51_Lotto_ReceiptWithJuleLotto[To kvitteringer - Lotto + Jule Lotto]
+W51_LottoWeekAndJuleLotto_Info[Info om Jule Lotto popup]
+W51_LottoWeekAndJuleLotto_Joker[Joker tilvalg]
+W51_LottoWeekAndJuleLotto_Confirm@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
+W51_LottoWeekAndJuleLotto_Receipt[En kvittering - Lotto + Jule Lotto]
+W51_JuleLotto_Info@{ img: "julelotto/julelotto-onboarding.png", label: "Jule Lotto onboarding", pos: "b", w: 200, h: 125, constraint: "on" }
+W51_JuleLotto_Confirm@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
+W51_JuleLotto_Receipt@{ img: "julelotto/julelotto-receipt.png", label: "En kvittering - Jule Lotto", pos: "b", w: 200, h: 166, constraint: "on" }
+
+W52_TopSpot@{ img: "julelotto/landingpage-week52.png", label: "Top Spot", pos: "b", w: 200, h: 168, constraint: "on" }
+W52_LandingPage@{ img: "julelotto/landingpage-week52.png", label: "Landing page", pos: "b", w: 200, h: 168, constraint: "on" }
+W52_Lotto_Rows@{ img: "julelotto/lotto-rows.png", label: "Antal rækker", pos: "b", w: 200, h: 184, constraint: "on" }
+W52_Lotto_Weeks[Antal uger]
+W52_LottoJuleLotto_Info@{ img: "julelotto/julelotto-onboarding.png", label: "Jule Lotto onboarding", pos: "b", w: 200, h: 125, constraint: "on" }
+W52_LottoJuleLotto_AddLotto[Tilføj Lotto?]
+W52_LottoJuleLotto_Confirm@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
+W52_LottoJuleLotto_Receipt@{ img: "julelotto/julelotto-receipt.png", label: "En kvittering - Jule Lotto", pos: "b", w: 200, h: 166, constraint: "on" }
+W52_LottoJuleLotto_ConfirmWithLotto@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
+W52_LottoJuleLotto_ReceiptWithLotto[To kvitteringer - Jule Lotto og Lotto]
+W52_LottoJuleLottoAndWeek_Info@{ img: "julelotto/julelotto-onboarding.png", label: "Jule Lotto onboarding", pos: "b", w: 200, h: 125, constraint: "on" }
+W52_LottoJuleLottoAndWeek_Confirm@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
+W52_LottoJuleLottoAndWeek_Receipt[To kvitteringer - Lotto og Jule Lotto]
+W52_JuleLotto_Rows@{ img: "julelotto/julelotto-rows.png", label: "Antal rækker", pos: "b", w: 200, h: 183, constraint: "on" }
+W52_JuleLotto_Info@{ img: "julelotto/julelotto-onboarding.png", label: "Jule Lotto onboarding", pos: "b", w: 200, h: 125, constraint: "on" }
+W52_JuleLotto_LottoDrawUpsell@{ img: "julelotto/julelotto-lotto-draw-upsell.png", label: "Lotto Draw Upsell", pos: "b", w: 200, h: 125, constraint: "on" }
+W52_JuleLotto_Confirm@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
+W52_JuleLotto_Receipt@{ img: "julelotto/julelotto-receipt.png", label: "En kvittering - Jule Lotto", pos: "b", w: 200, h: 166, constraint: "on" }
+W52_JuleLotto_ConfirmWithLotto@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
+W52_JuleLotto_ReceiptWithLotto[To kvitteringer - Jule Lotto og Lotto]
+
+subgraph week52[21.-25. december 2026]
+direction TB
+
+W52_TopSpot --> | Køb nu - 10 rækker | W52_LottoJuleLotto_Info
+
+W52_LandingPage --> | Lotto | W52_Lotto_Rows
+W52_Lotto_Rows --> | 10 rækker | W52_Lotto_Weeks
+W52_Lotto_Weeks --> | Jule Lotto | W52_LottoJuleLotto_Info
+W52_LottoJuleLotto_Info --> | Næste | W52_LottoJuleLotto_AddLotto
+
+W52_LottoJuleLotto_AddLotto --> | Nej tak | W52_LottoJuleLotto_Confirm
+W52_LottoJuleLotto_AddLotto --> | Ja tak | W52_LottoJuleLotto_ConfirmWithLotto
+W52_LottoJuleLotto_Confirm --> | Bekræft | W52_LottoJuleLotto_Receipt
+W52_LottoJuleLotto_ConfirmWithLotto --> | Bekræft | W52_LottoJuleLotto_ReceiptWithLotto
+
+W52_Lotto_Weeks --> | Jule Lotto og 1 uge | W52_LottoJuleLottoAndWeek_Info
+W52_LottoJuleLottoAndWeek_Info --> | Næste | W52_LottoJuleLottoAndWeek_Confirm
+W52_LottoJuleLottoAndWeek_Confirm --> | Bekræft | W52_LottoJuleLottoAndWeek_Receipt
+
+W52_LandingPage --> | Jule Lotto | W52_JuleLotto_Rows
+W52_JuleLotto_Rows --> | 10 rækker | W52_JuleLotto_Info
+W52_JuleLotto_Info --> | Næste | W52_JuleLotto_LottoDrawUpsell
+W52_JuleLotto_LottoDrawUpsell --> | Nej tak | W52_JuleLotto_Confirm
+W52_JuleLotto_LottoDrawUpsell --> | Ja tak | W52_JuleLotto_ConfirmWithLotto
+W52_JuleLotto_Confirm --> | Bekræft | W52_JuleLotto_Receipt
+W52_JuleLotto_ConfirmWithLotto --> | Bekræft | W52_JuleLotto_ReceiptWithLotto
+
+end
+
+subgraph week51[14.-20. december 2026]
+direction TB
+
+W51_TopSpot --> | Køb nu - 10 rækker | W51_Lotto_JuleLottoPopover
+W51_LandingPage --> | Lotto | W51_Lotto_Rows
+W51_Lotto_Rows --> | 10 rækker | W51_Lotto_Weeks
+W51_Lotto_Weeks --> | 1 uge | W51_Lotto_JuleLottoPopover
+W51_Lotto_JuleLottoPopover -.-> | Nej tak | W51_Lotto_Joker
+W51_Lotto_JuleLottoPopover -.-> | Ja tak | W51_Lotto_JokerWithJuleLotto
+W51_Lotto_Joker --> | Nej tak | W51_Lotto_Confirm
+W51_Lotto_JokerWithJuleLotto --> | Nej tak | W51_Lotto_ConfirmWithJuleLotto
+W51_Lotto_Confirm --> | Bekræft | W51_Lotto_Receipt
+W51_Lotto_ConfirmWithJuleLotto --> | Bekræft | W51_Lotto_ReceiptWithJuleLotto
+
+W51_Lotto_Weeks --> | 1 uge og Jule Lotto | W51_LottoWeekAndJuleLotto_Info
+W51_LottoWeekAndJuleLotto_Info -.-> | Næste | W51_LottoWeekAndJuleLotto_Joker
+W51_LottoWeekAndJuleLotto_Joker --> | Nej tak | W51_LottoWeekAndJuleLotto_Confirm
+W51_LottoWeekAndJuleLotto_Confirm --> | Bekræft | W51_LottoWeekAndJuleLotto_Receipt
+
+W51_LandingPage --> | Jule Lotto | W51_JuleLotto_Info
+W51_JuleLotto_Info --> | Næste | W51_JuleLotto_Confirm
+W51_JuleLotto_Confirm --> | Bekræft | W51_JuleLotto_Receipt
+
+end
+
+week51 ~~~ week52
+`;
+</script>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+  mermaid.initialize({ startOnLoad: true });
+</script>
+
+</body>
+</html>
