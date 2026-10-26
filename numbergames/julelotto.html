@@ -304,7 +304,7 @@
     },
     week52: {
       nodes: [
-        { id: 'TopSpot', row: 1, col: 1, img: 'week52-topspot.png', h: 168, label: 'Top Spot', start: true },
+        { id: 'TopSpot', row: 1, col: 5, img: 'week52-topspot.png', h: 168, label: 'Top Spot', start: true },
         { id: 'LandingPage', row: 1, col: 3, img: 'week52-landingpage.png', h: 168, label: 'Landing page', start: true },
         { id: 'Lotto_Rows', row: 2, col: 2, img: 'week52-landingpage-lotto-rows.png', h: 172, label: 'Antal rækker' },
         { id: 'Lotto_Weeks', row: 3, col: 2, img: 'week52-landingpage-lotto-rows-weeks.png', h: 113, label: 'Antal uger' },
@@ -318,7 +318,7 @@
         { id: 'LottoJuleLottoAndWeek_Joker', row: 5, col: 3, img: 'week52-landingpage-lotto-rows-weeks-julelotto-1uge-onboarding-joker.png', h: 150, label: 'Joker tilvalg' },
         { id: 'LottoJuleLottoAndWeek_Confirm', row: 6, col: 3, img: 'week52-landingpage-lotto-rows-weeks-julelotto-1uge-onboarding-nej-joker-confirm.png', h: 125, label: 'Bekræftside' },
         { id: 'LottoJuleLottoAndWeek_Receipt', row: 7, col: 3, label: 'To kvitteringer - Lotto og Jule Lotto', status: 'missing' },
-        { id: 'JuleLotto_Rows', row: 2, col: 4, span: 2, img: 'week52-landingpage-julelotto-rows.png', h: 183, label: 'Antal rækker' },
+        { id: 'JuleLotto_Rows', row: 2, col: 4, img: 'week52-landingpage-julelotto-rows.png', h: 183, label: 'Antal rækker' },
         { id: 'JuleLotto_Info', row: 3, col: 4, span: 2, img: 'week52-landingpage-julelotto-rows-onboarding.png', h: 125, label: 'Jule Lotto onboarding' },
         { id: 'JuleLotto_LottoDrawUpsell', row: 4, col: 4, span: 2, img: 'week52-landingpage-julelotto-rows-onboarding-upsell.png', h: 125, label: 'Tilføj Lotto?' },
         { id: 'JuleLotto_Confirm', row: 5, col: 4, img: 'week52-landingpage-julelotto-rows-onboarding-upsell-nej-confirm.png', h: 125, label: 'Bekræftside' },
@@ -327,7 +327,7 @@
         { id: 'JuleLotto_ReceiptWithLotto', row: 6, col: 5, label: 'To kvitteringer - Jule Lotto og Lotto', status: 'missing' },
       ],
       edges: [
-        ['TopSpot', 'LottoJuleLotto_Info', 'Køb nu - 10 rækker'],
+        ['TopSpot', 'JuleLotto_Info', 'Køb nu - 10 rækker'],
         ['LandingPage', 'Lotto_Rows', 'Lotto'],
         ['Lotto_Rows', 'Lotto_Weeks', '10 rækker'],
         ['Lotto_Weeks', 'LottoJuleLotto_Info', 'Jule Lotto'],
