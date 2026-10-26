@@ -4,44 +4,186 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>KLAPI</title>
+    <title>DS flow</title>
     <link rel="icon" type="image/svg+xml" href="https://danskespil.dk/favicon.ico">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: "Roboto", sans-serif;
-            margin: 40px;
-            background-color: #f4f4f4;
+            margin: 0;
+            min-height: 100vh;
+            color: #2a2a2e;
+            background: linear-gradient(160deg, #f7f7fb 0%, #e9ecf3 100%);
         }
 
-        .pages {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 400px;
+        .header {
+            padding: 32px 20px 8px;
+            max-width: 960px;
+            margin: 0 auto;
         }
 
-        a {
-            text-decoration: none;
-            color: #333;
-            font-size: 16px;
-            padding: 10px;
+        .header__title {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 0 6px;
+        }
+
+        .header__intro {
+            font-size: 15px;
+            color: #5f5f6c;
+            margin: 0;
+        }
+
+        .groups {
+            display: grid;
+            gap: 24px;
+            padding: 20px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .group {
             background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
         }
 
-        a:hover {
-            background-color: #eaeaea;
-            color: #000;
+        .group__header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 20px;
+            color: #fff;
+        }
+
+        .group--klublotto .group__header {
+            background: linear-gradient(135deg, #6b2fa3, #9b4fd6);
+        }
+
+        .group--numbergames .group__header {
+            background: linear-gradient(135deg, #c50005, #e5383b);
+        }
+
+        .group__icon {
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .group__title {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .group__links {
+            list-style: none;
+            margin: 0;
+            padding: 8px;
+        }
+
+        .link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            transition: background-color 0.2s;
+        }
+
+        .link:hover,
+        .link:focus-visible {
+            background-color: #f2f2f7;
+        }
+
+        .link__name {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .link__description {
+            display: block;
+            font-size: 13px;
+            color: #5f5f6c;
+            margin-top: 2px;
+        }
+
+        .link__arrow {
+            color: #9a9aa8;
+            font-size: 18px;
+            transition: transform 0.2s;
+        }
+
+        .link:hover .link__arrow {
+            transform: translateX(3px);
+        }
+
+        @media (min-width: 720px) {
+            .header {
+                padding-top: 56px;
+            }
+
+            .header__title {
+                font-size: 34px;
+            }
+
+            .groups {
+                grid-template-columns: repeat(2, 1fr);
+                align-items: start;
+            }
         }
     </style>
 </head>
 <body>
-<div class="pages">
-    <a href="klublotto/redeem.html">Redeem</a>
-    <a href="numbergames/julelotto.html">Jule Lotto</a>
-</div>
+<header class="header">
+    <h1 class="header__title">DS flow</h1>
+    <p class="header__intro">User flows for Danske Spil products. Pick a flow below to explore it.</p>
+</header>
+
+<main class="groups">
+    <section class="group group--klublotto">
+        <div class="group__header">
+            <span class="group__icon" aria-hidden="true">🎟️</span>
+            <h2 class="group__title">Klub Lotto</h2>
+        </div>
+        <ul class="group__links">
+            <li>
+                <a class="link" href="klublotto/redeem.html" data-uitest-id="index-link-klublotto-redeem">
+                    <span>
+                        <span class="link__name">Redeem</span>
+                        <span class="link__description">Redeeming a Klub Lotto code</span>
+                    </span>
+                    <span class="link__arrow" aria-hidden="true">→</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <section class="group group--numbergames">
+        <div class="group__header">
+            <span class="group__icon" aria-hidden="true">🎄</span>
+            <h2 class="group__title">Numbergames</h2>
+        </div>
+        <ul class="group__links">
+            <li>
+                <a class="link" href="numbergames/julelotto.html" data-uitest-id="index-link-numbergames-julelotto">
+                    <span>
+                        <span class="link__name">Jule Lotto</span>
+                        <span class="link__description">Buying Lotto and Jule Lotto in week 51 and 52</span>
+                    </span>
+                    <span class="link__arrow" aria-hidden="true">→</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+</main>
 </body>
 </html>

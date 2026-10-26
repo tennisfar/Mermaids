@@ -4,210 +4,489 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Number Games - Jule Lotto</title>
+    <title>Numbergames - Jule Lotto | DS flow</title>
     <link rel="icon" type="image/svg+xml" href="https://danskespil.dk/favicon.ico">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
     <link rel="stylesheet" href="../mermaid.css">
     <style>
-        .mermaid {
-            top: 45px;
-            width: auto !important;
-            height: auto !important;
+        .flow {
+            width: max-content;
+            margin: 0 auto;
+            padding: 32px 32px 40px;
+            border-radius: 16px;
+            background: radial-gradient(circle, #d5d8e2 1px, transparent 1.4px) 0 0 / 18px 18px, #f8f9fc;
         }
 
-        .mermaid svg {
-            width: 100% !important;
-            max-width: none !important;
-            max-height: none !important;
-            height: auto !important;
+        .flow__grid {
+            position: relative;
+            display: grid;
+            column-gap: 56px;
+            row-gap: 80px;
+            align-items: start;
+            justify-items: center;
         }
 
-        .home {
-            position: fixed;
+        .flow__edges {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            pointer-events: none;
         }
 
-        .mermaid .cluster rect {
-            fill: #fffff0;
-            stroke: black !important;
+        .flow__edge {
+            fill: none;
+            stroke: #a3a9bd;
+            stroke-width: 1.75;
+            transition: stroke 0.2s, stroke-width 0.2s;
         }
 
-        .mermaid .cluster .nodeLabel {
-            color: black !important;
-            font-weight: bold;
-            font-size: 14px;
+        .flow__edge--dashed {
+            stroke-dasharray: 6 5;
         }
 
-        .mermaid .edgeLabel {
-            background-color: #d7e0ff !important;
-            text-align: left;
-            opacity: 1 !important;
+        .flow__edge--active {
+            stroke: #c50005;
+            stroke-width: 2.5;
         }
 
-        .mermaid .edgeLabel p {
-            padding: 0 0.5rem;
+        .flow__arrow {
+            fill: #a3a9bd;
+        }
+
+        .flow__arrow--active {
+            fill: #c50005;
+        }
+
+        .flow__node {
+            position: relative;
+            z-index: 1;
+            width: 216px;
+            margin: 0;
+            padding: 8px;
+            border-radius: 12px;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(20, 20, 40, 0.08), 0 4px 14px rgba(20, 20, 40, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .flow__node:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 6px rgba(20, 20, 40, 0.1), 0 10px 24px rgba(20, 20, 40, 0.14);
+        }
+
+        .flow__node--placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 96px;
+            border: 2px dashed currentColor;
+            box-shadow: none;
+        }
+
+        .flow__node--missing {
+            color: #b3141a;
+            background: repeating-linear-gradient(135deg, #fff5f5 0 10px, #ffeaea 10px 20px);
+        }
+
+        .flow__node--missing-dark {
+            color: #7a0000;
+            background: repeating-linear-gradient(135deg, #f9e6e6 0 10px, #f2d4d4 10px 20px);
+        }
+
+        .flow__node--pending {
+            color: #b35c00;
+            background: repeating-linear-gradient(135deg, #fff8eb 0 10px, #ffeccc 10px 20px);
+        }
+
+        .flow__badge {
+            position: absolute;
+            top: -10px;
+            left: 12px;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #fff;
+            background: linear-gradient(135deg, #c50005, #e5383b);
+            box-shadow: 0 2px 6px rgba(197, 0, 5, 0.3);
+        }
+
+        .flow__zoom {
+            display: block;
+            padding: 0;
+            border: 0;
+            border-radius: 6px;
+            overflow: hidden;
+            background: none;
+            cursor: zoom-in;
+        }
+
+        .flow__image {
+            display: block;
+            width: 200px;
+            height: auto;
+        }
+
+        .flow__label {
+            margin: 8px 4px 2px;
             font-size: 13px;
+            font-weight: 500;
+            text-align: center;
         }
 
-        .mermaid .node polygon {
-            fill: #d7e0ff !important;
-            stroke: #d7e0ff !important;
+        .flow__node--placeholder .flow__label {
+            margin: 0;
+            padding: 0 8px;
         }
 
-        .mermaid .node polygon + g .nodeLabel {
-            color: black !important;
+        .flow__labels {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
         }
 
-        .mermaid .node rect {
-            fill: #12a05e !important;
-            stroke: transparent !important;
-            filter: none !important;
+        .flow__edge-label {
+            position: absolute;
+            padding: 3px 10px;
+            border: 1px solid #dfe2ec;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+            color: #3b3b45;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(20, 20, 40, 0.08);
+            transform: translate(-50%, -50%);
+            transition: color 0.2s, border-color 0.2s;
         }
 
-        .mermaid .node rect + g .nodeLabel {
-            color: white !important;
+        .flow__edge-label--active {
+            border-color: #c50005;
+            color: #c50005;
         }
 
-        .mermaid .label {
-            padding: 1rem 0.25rem !important;
+        .lightbox {
+            max-width: 92vw;
+            max-height: 92vh;
+            padding: 16px;
+            border: 0;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
         }
 
-        .mermaid svg {
-            overflow: auto !important;
-            margin-left: auto;
-            margin-right: auto;
+        .lightbox::backdrop {
+            background-color: rgba(20, 20, 30, 0.7);
+        }
+
+        .lightbox__figure {
+            margin: 0;
+        }
+
+        .lightbox__image {
+            display: block;
+            max-width: min(1200px, 85vw);
+            max-height: 80vh;
+            border-radius: 6px;
+        }
+
+        .lightbox__caption {
+            margin-top: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .lightbox__close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            border: 0;
+            border-radius: 50%;
+            font-size: 20px;
+            line-height: 1;
+            color: #2a2a2e;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
         }
     </style>
 </head>
-<body>
-<div class="title">Jule Lotto - Flow</div>
-<div class="version">Vers. 20261026.1</div>
-<a class="home" href="/">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+<body class="page">
+<header class="topbar topbar--numbergames">
+<a class="topbar__home" href="../index.html" aria-label="Back to DS flow" data-uitest-id="numbergames-julelotto-home-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
          stroke-linejoin="round" class="lucide lucide-house-icon lucide-house">
         <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/>
         <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
     </svg>
 </a>
-<div class="mermaid"></div>
+<div class="topbar__heading">
+    <span class="topbar__group">Numbergames</span>
+    <h1 class="topbar__title">Jule Lotto</h1>
+</div>
+<span class="topbar__version">Vers. 20261026.2</span>
+</header>
+<nav class="tabs tabs--numbergames" role="tablist" aria-label="Uge">
+    <button class="tabs__tab" type="button" role="tab" id="tab-week51" aria-controls="panel-week51" data-week="week51" data-uitest-id="julelotto-tab-week51">
+        <span class="tabs__name">Uge 51</span>
+        <span class="tabs__date">14.-20. december</span>
+    </button>
+    <button class="tabs__tab" type="button" role="tab" id="tab-week52" aria-controls="panel-week52" data-week="week52" data-uitest-id="julelotto-tab-week52">
+        <span class="tabs__name">Uge 52</span>
+        <span class="tabs__date">21.-25. december</span>
+    </button>
+</nav>
+<main class="diagram">
+    <section class="flow" id="panel-week51" role="tabpanel" aria-labelledby="tab-week51"></section>
+    <section class="flow" id="panel-week52" role="tabpanel" aria-labelledby="tab-week52" hidden></section>
+</main>
 
-<script type="text/javascript">
-  const el = document.querySelector('.mermaid');
-  el.innerHTML = `
-flowchart TB
-
-style W51_Lotto_JokerWithJuleLotto fill:red
-style W51_Lotto_ReceiptWithJuleLotto fill:red
-style W51_LottoWeekAndJuleLotto_Info fill:darkred
-style W51_LottoWeekAndJuleLotto_Joker fill:red
-style W51_LottoWeekAndJuleLotto_Receipt fill:red
-
-style W52_Lotto_Weeks fill:red
-style W52_LottoJuleLotto_AddLotto fill:orange
-style W52_LottoJuleLotto_ReceiptWithLotto fill:red
-style W52_JuleLotto_ReceiptWithLotto fill:red
-
-W51_TopSpot@{ img: "julelotto/landingpage-week51.png", label: "Top Spot", pos: "b", w: 200, h: 168, constraint: "on" }
-W51_LandingPage@{ img: "julelotto/landingpage-week51.png", label: "Landing page", pos: "b", w: 200, h: 168, constraint: "on" }
-W51_Lotto_Rows@{ img: "julelotto/lotto-rows.png", label: "Antal rækker", pos: "b", w: 200, h: 184, constraint: "on" }
-W51_Lotto_Weeks@{ img: "julelotto/lotto-weeks.png", label: "Antal uger", pos: "b", w: 200, h: 125, constraint: "on" }
-W51_Lotto_JuleLottoPopover@{ img: "julelotto/julelotto-addon-popover.png", label: "Jule Lotto tilkøb popover", pos: "b", w: 200, h: 125, constraint: "on" }
-W51_Lotto_Joker@{ img: "julelotto/lotto-joker.png", label: "Joker tilvalg", pos: "b", w: 200, h: 125, constraint: "on" }
-W51_Lotto_Confirm@{ img: "julelotto/lotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 142, constraint: "on" }
-W51_Lotto_Receipt@{ img: "julelotto/lotto-receipt.png", label: "En kvittering - Lotto", pos: "b", w: 200, h: 125, constraint: "on" }
-W51_Lotto_JokerWithJuleLotto[Joker tilvalg]
-W51_Lotto_ConfirmWithJuleLotto@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
-W51_Lotto_ReceiptWithJuleLotto[To kvitteringer - Lotto + Jule Lotto]
-W51_LottoWeekAndJuleLotto_Info[Info om Jule Lotto popup]
-W51_LottoWeekAndJuleLotto_Joker[Joker tilvalg]
-W51_LottoWeekAndJuleLotto_Confirm@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
-W51_LottoWeekAndJuleLotto_Receipt[En kvittering - Lotto + Jule Lotto]
-W51_JuleLotto_Info@{ img: "julelotto/julelotto-onboarding.png", label: "Jule Lotto onboarding", pos: "b", w: 200, h: 125, constraint: "on" }
-W51_JuleLotto_Confirm@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
-W51_JuleLotto_Receipt@{ img: "julelotto/julelotto-receipt.png", label: "En kvittering - Jule Lotto", pos: "b", w: 200, h: 166, constraint: "on" }
-
-W52_TopSpot@{ img: "julelotto/landingpage-week52.png", label: "Top Spot", pos: "b", w: 200, h: 168, constraint: "on" }
-W52_LandingPage@{ img: "julelotto/landingpage-week52.png", label: "Landing page", pos: "b", w: 200, h: 168, constraint: "on" }
-W52_Lotto_Rows@{ img: "julelotto/lotto-rows.png", label: "Antal rækker", pos: "b", w: 200, h: 184, constraint: "on" }
-W52_Lotto_Weeks[Antal uger]
-W52_LottoJuleLotto_Info@{ img: "julelotto/julelotto-onboarding.png", label: "Jule Lotto onboarding", pos: "b", w: 200, h: 125, constraint: "on" }
-W52_LottoJuleLotto_AddLotto[Tilføj Lotto?]
-W52_LottoJuleLotto_Confirm@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
-W52_LottoJuleLotto_Receipt@{ img: "julelotto/julelotto-receipt.png", label: "En kvittering - Jule Lotto", pos: "b", w: 200, h: 166, constraint: "on" }
-W52_LottoJuleLotto_ConfirmWithLotto@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
-W52_LottoJuleLotto_ReceiptWithLotto[To kvitteringer - Jule Lotto og Lotto]
-W52_LottoJuleLottoAndWeek_Info@{ img: "julelotto/julelotto-onboarding.png", label: "Jule Lotto onboarding", pos: "b", w: 200, h: 125, constraint: "on" }
-W52_LottoJuleLottoAndWeek_Confirm@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
-W52_LottoJuleLottoAndWeek_Receipt[To kvitteringer - Lotto og Jule Lotto]
-W52_JuleLotto_Rows@{ img: "julelotto/julelotto-rows.png", label: "Antal rækker", pos: "b", w: 200, h: 183, constraint: "on" }
-W52_JuleLotto_Info@{ img: "julelotto/julelotto-onboarding.png", label: "Jule Lotto onboarding", pos: "b", w: 200, h: 125, constraint: "on" }
-W52_JuleLotto_LottoDrawUpsell@{ img: "julelotto/julelotto-lotto-draw-upsell.png", label: "Lotto Draw Upsell", pos: "b", w: 200, h: 125, constraint: "on" }
-W52_JuleLotto_Confirm@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
-W52_JuleLotto_Receipt@{ img: "julelotto/julelotto-receipt.png", label: "En kvittering - Jule Lotto", pos: "b", w: 200, h: 166, constraint: "on" }
-W52_JuleLotto_ConfirmWithLotto@{ img: "julelotto/julelotto-confirm.png", label: "Bekræftside", pos: "b", w: 200, h: 125, constraint: "on" }
-W52_JuleLotto_ReceiptWithLotto[To kvitteringer - Jule Lotto og Lotto]
-
-subgraph week52[21.-25. december 2026]
-direction TB
-
-W52_TopSpot --> | Køb nu - 10 rækker | W52_LottoJuleLotto_Info
-
-W52_LandingPage --> | Lotto | W52_Lotto_Rows
-W52_Lotto_Rows --> | 10 rækker | W52_Lotto_Weeks
-W52_Lotto_Weeks --> | Jule Lotto | W52_LottoJuleLotto_Info
-W52_LottoJuleLotto_Info --> | Næste | W52_LottoJuleLotto_AddLotto
-
-W52_LottoJuleLotto_AddLotto --> | Nej tak | W52_LottoJuleLotto_Confirm
-W52_LottoJuleLotto_AddLotto --> | Ja tak | W52_LottoJuleLotto_ConfirmWithLotto
-W52_LottoJuleLotto_Confirm --> | Bekræft | W52_LottoJuleLotto_Receipt
-W52_LottoJuleLotto_ConfirmWithLotto --> | Bekræft | W52_LottoJuleLotto_ReceiptWithLotto
-
-W52_Lotto_Weeks --> | Jule Lotto og 1 uge | W52_LottoJuleLottoAndWeek_Info
-W52_LottoJuleLottoAndWeek_Info --> | Næste | W52_LottoJuleLottoAndWeek_Confirm
-W52_LottoJuleLottoAndWeek_Confirm --> | Bekræft | W52_LottoJuleLottoAndWeek_Receipt
-
-W52_LandingPage --> | Jule Lotto | W52_JuleLotto_Rows
-W52_JuleLotto_Rows --> | 10 rækker | W52_JuleLotto_Info
-W52_JuleLotto_Info --> | Næste | W52_JuleLotto_LottoDrawUpsell
-W52_JuleLotto_LottoDrawUpsell --> | Nej tak | W52_JuleLotto_Confirm
-W52_JuleLotto_LottoDrawUpsell --> | Ja tak | W52_JuleLotto_ConfirmWithLotto
-W52_JuleLotto_Confirm --> | Bekræft | W52_JuleLotto_Receipt
-W52_JuleLotto_ConfirmWithLotto --> | Bekræft | W52_JuleLotto_ReceiptWithLotto
-
-end
-
-subgraph week51[14.-20. december 2026]
-direction TB
-
-W51_TopSpot --> | Køb nu - 10 rækker | W51_Lotto_JuleLottoPopover
-W51_LandingPage --> | Lotto | W51_Lotto_Rows
-W51_Lotto_Rows --> | 10 rækker | W51_Lotto_Weeks
-W51_Lotto_Weeks --> | 1 uge | W51_Lotto_JuleLottoPopover
-W51_Lotto_JuleLottoPopover -.-> | Nej tak | W51_Lotto_Joker
-W51_Lotto_JuleLottoPopover -.-> | Ja tak | W51_Lotto_JokerWithJuleLotto
-W51_Lotto_Joker --> | Nej tak | W51_Lotto_Confirm
-W51_Lotto_JokerWithJuleLotto --> | Nej tak | W51_Lotto_ConfirmWithJuleLotto
-W51_Lotto_Confirm --> | Bekræft | W51_Lotto_Receipt
-W51_Lotto_ConfirmWithJuleLotto --> | Bekræft | W51_Lotto_ReceiptWithJuleLotto
-
-W51_Lotto_Weeks --> | 1 uge og Jule Lotto | W51_LottoWeekAndJuleLotto_Info
-W51_LottoWeekAndJuleLotto_Info -.-> | Næste | W51_LottoWeekAndJuleLotto_Joker
-W51_LottoWeekAndJuleLotto_Joker --> | Nej tak | W51_LottoWeekAndJuleLotto_Confirm
-W51_LottoWeekAndJuleLotto_Confirm --> | Bekræft | W51_LottoWeekAndJuleLotto_Receipt
-
-W51_LandingPage --> | Jule Lotto | W51_JuleLotto_Info
-W51_JuleLotto_Info --> | Næste | W51_JuleLotto_Confirm
-W51_JuleLotto_Confirm --> | Bekræft | W51_JuleLotto_Receipt
-
-end
-
-week51 ~~~ week52
-`;
-</script>
+<dialog class="lightbox" data-uitest-id="julelotto-lightbox">
+    <figure class="lightbox__figure">
+        <img class="lightbox__image" src="" alt="">
+        <figcaption class="lightbox__caption"></figcaption>
+    </figure>
+    <button class="lightbox__close" type="button" aria-label="Luk" data-uitest-id="julelotto-lightbox-close">×</button>
+</dialog>
 
 <script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  // Nodes are placed on a grid (row/col/span); status marks screens without a screenshot yet
+  const flows = {
+    week51: {
+      nodes: [
+        { id: 'TopSpot', row: 1, col: 1, img: 'landingpage-week51.png', h: 168, label: 'Top Spot', start: true },
+        { id: 'LandingPage', row: 1, col: 3, img: 'landingpage-week51.png', h: 168, label: 'Landing page', start: true },
+        { id: 'Lotto_Rows', row: 2, col: 2, img: 'lotto-rows.png', h: 184, label: 'Antal rækker' },
+        { id: 'Lotto_Weeks', row: 3, col: 2, img: 'lotto-weeks.png', h: 125, label: 'Antal uger' },
+        { id: 'Lotto_JuleLottoPopover', row: 4, col: 1, span: 2, img: 'julelotto-addon-popover.png', h: 125, label: 'Jule Lotto tilkøb popover' },
+        { id: 'Lotto_Joker', row: 5, col: 1, img: 'lotto-joker.png', h: 125, label: 'Joker tilvalg' },
+        { id: 'Lotto_Confirm', row: 6, col: 1, img: 'lotto-confirm.png', h: 142, label: 'Bekræftside' },
+        { id: 'Lotto_Receipt', row: 7, col: 1, img: 'lotto-receipt.png', h: 125, label: 'En kvittering - Lotto' },
+        { id: 'Lotto_JokerWithJuleLotto', row: 5, col: 2, label: 'Joker tilvalg', status: 'missing' },
+        { id: 'Lotto_ConfirmWithJuleLotto', row: 6, col: 2, img: 'julelotto-confirm.png', h: 125, label: 'Bekræftside' },
+        { id: 'Lotto_ReceiptWithJuleLotto', row: 7, col: 2, label: 'To kvitteringer - Lotto + Jule Lotto', status: 'missing' },
+        { id: 'LottoWeekAndJuleLotto_Info', row: 4, col: 3, label: 'Info om Jule Lotto popup', status: 'missing-dark' },
+        { id: 'LottoWeekAndJuleLotto_Joker', row: 5, col: 3, label: 'Joker tilvalg', status: 'missing' },
+        { id: 'LottoWeekAndJuleLotto_Confirm', row: 6, col: 3, img: 'julelotto-confirm.png', h: 125, label: 'Bekræftside' },
+        { id: 'LottoWeekAndJuleLotto_Receipt', row: 7, col: 3, label: 'En kvittering - Lotto + Jule Lotto', status: 'missing' },
+        { id: 'JuleLotto_Info', row: 2, col: 4, img: 'julelotto-onboarding.png', h: 125, label: 'Jule Lotto onboarding' },
+        { id: 'JuleLotto_Confirm', row: 3, col: 4, img: 'julelotto-confirm.png', h: 125, label: 'Bekræftside' },
+        { id: 'JuleLotto_Receipt', row: 4, col: 4, img: 'julelotto-receipt.png', h: 166, label: 'En kvittering - Jule Lotto' },
+      ],
+      // [from, to, label, dashed]
+      edges: [
+        ['TopSpot', 'Lotto_JuleLottoPopover', 'Køb nu - 10 rækker'],
+        ['LandingPage', 'Lotto_Rows', 'Lotto'],
+        ['Lotto_Rows', 'Lotto_Weeks', '10 rækker'],
+        ['Lotto_Weeks', 'Lotto_JuleLottoPopover', '1 uge'],
+        ['Lotto_JuleLottoPopover', 'Lotto_Joker', 'Nej tak', true],
+        ['Lotto_JuleLottoPopover', 'Lotto_JokerWithJuleLotto', 'Ja tak', true],
+        ['Lotto_Joker', 'Lotto_Confirm', 'Nej tak'],
+        ['Lotto_JokerWithJuleLotto', 'Lotto_ConfirmWithJuleLotto', 'Nej tak'],
+        ['Lotto_Confirm', 'Lotto_Receipt', 'Bekræft'],
+        ['Lotto_ConfirmWithJuleLotto', 'Lotto_ReceiptWithJuleLotto', 'Bekræft'],
+        ['Lotto_Weeks', 'LottoWeekAndJuleLotto_Info', '1 uge og Jule Lotto'],
+        ['LottoWeekAndJuleLotto_Info', 'LottoWeekAndJuleLotto_Joker', 'Næste', true],
+        ['LottoWeekAndJuleLotto_Joker', 'LottoWeekAndJuleLotto_Confirm', 'Nej tak'],
+        ['LottoWeekAndJuleLotto_Confirm', 'LottoWeekAndJuleLotto_Receipt', 'Bekræft'],
+        ['LandingPage', 'JuleLotto_Info', 'Jule Lotto'],
+        ['JuleLotto_Info', 'JuleLotto_Confirm', 'Næste'],
+        ['JuleLotto_Confirm', 'JuleLotto_Receipt', 'Bekræft'],
+      ],
+    },
+    week52: {
+      nodes: [
+        { id: 'TopSpot', row: 1, col: 1, img: 'landingpage-week52.png', h: 168, label: 'Top Spot', start: true },
+        { id: 'LandingPage', row: 1, col: 3, img: 'landingpage-week52.png', h: 168, label: 'Landing page', start: true },
+        { id: 'Lotto_Rows', row: 2, col: 2, img: 'lotto-rows.png', h: 184, label: 'Antal rækker' },
+        { id: 'Lotto_Weeks', row: 3, col: 2, label: 'Antal uger', status: 'missing' },
+        { id: 'LottoJuleLotto_Info', row: 4, col: 1, span: 2, img: 'julelotto-onboarding.png', h: 125, label: 'Jule Lotto onboarding' },
+        { id: 'LottoJuleLotto_AddLotto', row: 5, col: 1, span: 2, label: 'Tilføj Lotto?', status: 'pending' },
+        { id: 'LottoJuleLotto_Confirm', row: 6, col: 1, img: 'julelotto-confirm.png', h: 125, label: 'Bekræftside' },
+        { id: 'LottoJuleLotto_Receipt', row: 7, col: 1, img: 'julelotto-receipt.png', h: 166, label: 'En kvittering - Jule Lotto' },
+        { id: 'LottoJuleLotto_ConfirmWithLotto', row: 6, col: 2, img: 'julelotto-confirm.png', h: 125, label: 'Bekræftside' },
+        { id: 'LottoJuleLotto_ReceiptWithLotto', row: 7, col: 2, label: 'To kvitteringer - Jule Lotto og Lotto', status: 'missing' },
+        { id: 'LottoJuleLottoAndWeek_Info', row: 4, col: 3, img: 'julelotto-onboarding.png', h: 125, label: 'Jule Lotto onboarding' },
+        { id: 'LottoJuleLottoAndWeek_Confirm', row: 5, col: 3, img: 'julelotto-confirm.png', h: 125, label: 'Bekræftside' },
+        { id: 'LottoJuleLottoAndWeek_Receipt', row: 6, col: 3, label: 'To kvitteringer - Lotto og Jule Lotto', status: 'missing' },
+        { id: 'JuleLotto_Rows', row: 2, col: 4, span: 2, img: 'julelotto-rows.png', h: 183, label: 'Antal rækker' },
+        { id: 'JuleLotto_Info', row: 3, col: 4, span: 2, img: 'julelotto-onboarding.png', h: 125, label: 'Jule Lotto onboarding' },
+        { id: 'JuleLotto_LottoDrawUpsell', row: 4, col: 4, span: 2, img: 'julelotto-lotto-draw-upsell.png', h: 125, label: 'Lotto Draw Upsell' },
+        { id: 'JuleLotto_Confirm', row: 5, col: 4, img: 'julelotto-confirm.png', h: 125, label: 'Bekræftside' },
+        { id: 'JuleLotto_Receipt', row: 6, col: 4, img: 'julelotto-receipt.png', h: 166, label: 'En kvittering - Jule Lotto' },
+        { id: 'JuleLotto_ConfirmWithLotto', row: 5, col: 5, img: 'julelotto-confirm.png', h: 125, label: 'Bekræftside' },
+        { id: 'JuleLotto_ReceiptWithLotto', row: 6, col: 5, label: 'To kvitteringer - Jule Lotto og Lotto', status: 'missing' },
+      ],
+      edges: [
+        ['TopSpot', 'LottoJuleLotto_Info', 'Køb nu - 10 rækker'],
+        ['LandingPage', 'Lotto_Rows', 'Lotto'],
+        ['Lotto_Rows', 'Lotto_Weeks', '10 rækker'],
+        ['Lotto_Weeks', 'LottoJuleLotto_Info', 'Jule Lotto'],
+        ['LottoJuleLotto_Info', 'LottoJuleLotto_AddLotto', 'Næste'],
+        ['LottoJuleLotto_AddLotto', 'LottoJuleLotto_Confirm', 'Nej tak'],
+        ['LottoJuleLotto_AddLotto', 'LottoJuleLotto_ConfirmWithLotto', 'Ja tak'],
+        ['LottoJuleLotto_Confirm', 'LottoJuleLotto_Receipt', 'Bekræft'],
+        ['LottoJuleLotto_ConfirmWithLotto', 'LottoJuleLotto_ReceiptWithLotto', 'Bekræft'],
+        ['Lotto_Weeks', 'LottoJuleLottoAndWeek_Info', 'Jule Lotto og 1 uge'],
+        ['LottoJuleLottoAndWeek_Info', 'LottoJuleLottoAndWeek_Confirm', 'Næste'],
+        ['LottoJuleLottoAndWeek_Confirm', 'LottoJuleLottoAndWeek_Receipt', 'Bekræft'],
+        ['LandingPage', 'JuleLotto_Rows', 'Jule Lotto'],
+        ['JuleLotto_Rows', 'JuleLotto_Info', '10 rækker'],
+        ['JuleLotto_Info', 'JuleLotto_LottoDrawUpsell', 'Næste'],
+        ['JuleLotto_LottoDrawUpsell', 'JuleLotto_Confirm', 'Nej tak'],
+        ['JuleLotto_LottoDrawUpsell', 'JuleLotto_ConfirmWithLotto', 'Ja tak'],
+        ['JuleLotto_Confirm', 'JuleLotto_Receipt', 'Bekræft'],
+        ['JuleLotto_ConfirmWithLotto', 'JuleLotto_ReceiptWithLotto', 'Bekræft'],
+      ],
+    },
+  };
 
-  mermaid.initialize({ startOnLoad: true });
+  const nodeHtml = (week, node) => {
+    const classes = node.status ? `flow__node flow__node--placeholder flow__node--${node.status}` : 'flow__node';
+    const badge = node.start ? '<span class="flow__badge">Start</span>' : '';
+    const image = node.img
+      ? `<button class="flow__zoom" type="button" data-src="julelotto/${node.img}" data-label="${node.label}" aria-label="Forstør ${node.label}" data-uitest-id="julelotto-${week}-${node.id}-zoom">
+           <img class="flow__image" src="julelotto/${node.img}" width="200" height="${node.h}" alt="">
+         </button>`
+      : '';
+
+    return `
+      <figure class="${classes}" data-node="${node.id}" style="grid-row: ${node.row}; grid-column: ${node.col} / span ${node.span ?? 1}">
+        ${badge}${image}
+        <figcaption class="flow__label">${node.label}</figcaption>
+      </figure>`;
+  };
+
+  // Rounded orthogonal connector from the bottom of one node to the top of another
+  const edgeShape = (source, target) => {
+    const sx = source.offsetLeft + source.offsetWidth / 2;
+    const sy = source.offsetTop + source.offsetHeight;
+    const tx = target.offsetLeft + target.offsetWidth / 2;
+    const ty = target.offsetTop;
+    const my = (sy + ty) / 2;
+    const dx = tx - sx;
+
+    if (Math.abs(dx) < 1) {
+      return { d: `M ${sx} ${sy} V ${ty}`, x: sx, y: my };
+    }
+
+    const r = Math.min(14, Math.abs(dx) / 2, (ty - sy) / 4);
+    const dir = Math.sign(dx);
+    const d = `M ${sx} ${sy} V ${my - r} Q ${sx} ${my} ${sx + dir * r} ${my} H ${tx - dir * r} Q ${tx} ${my} ${tx} ${my + r} V ${ty}`;
+
+    return { d, x: (sx + tx) / 2, y: my };
+  };
+
+  const draw = (grid) => {
+    if (!grid.offsetWidth) return;
+
+    const { week } = grid.dataset;
+    const node = (id) => grid.querySelector(`[data-node="${id}"]`);
+    const shapes = flows[week].edges.map(([from, to, text, dashed]) => ({ from, to, text, dashed, ...edgeShape(node(from), node(to)) }));
+
+    grid.querySelector('.flow__edges').innerHTML = `
+      <defs>
+        <marker id="${week}-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path class="flow__arrow" d="M 0 0 L 10 5 L 0 10 z"/>
+        </marker>
+        <marker id="${week}-arrow-active" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path class="flow__arrow flow__arrow--active" d="M 0 0 L 10 5 L 0 10 z"/>
+        </marker>
+      </defs>
+      ${shapes.map(({ from, to, d, dashed }) =>
+        `<path class="flow__edge${dashed ? ' flow__edge--dashed' : ''}" d="${d}" data-from="${from}" data-to="${to}" marker-end="url(#${week}-arrow)"/>`).join('')}
+    `;
+
+    grid.querySelector('.flow__labels').innerHTML = shapes.map(({ from, to, text, x, y }) =>
+      `<span class="flow__edge-label" data-from="${from}" data-to="${to}" style="left: ${x}px; top: ${y}px">${text}</span>`).join('');
+  };
+
+  const highlight = (grid, id) => {
+    grid.querySelectorAll('[data-from]').forEach((element) => {
+      const active = Boolean(id) && (element.dataset.from === id || element.dataset.to === id);
+
+      if (element.tagName === 'path') {
+        element.classList.toggle('flow__edge--active', active);
+        element.setAttribute('marker-end', `url(#${grid.dataset.week}-arrow${active ? '-active' : ''})`);
+      } else {
+        element.classList.toggle('flow__edge-label--active', active);
+      }
+    });
+  };
+
+  const resizeObserver = new ResizeObserver((entries) => entries.forEach(({ target }) => draw(target)));
+
+  Object.entries(flows).forEach(([week, { nodes }]) => {
+    const columns = Math.max(...nodes.map(({ col, span = 1 }) => col + span - 1));
+    const panel = document.getElementById(`panel-${week}`);
+
+    panel.innerHTML = `
+      <div class="flow__grid" data-week="${week}" style="grid-template-columns: repeat(${columns}, 216px)">
+        <svg class="flow__edges" aria-hidden="true"></svg>
+        <div class="flow__labels" aria-hidden="true"></div>
+        ${nodes.map((node) => nodeHtml(week, node)).join('')}
+      </div>`;
+
+    const grid = panel.querySelector('.flow__grid');
+    grid.addEventListener('pointerover', (event) => highlight(grid, event.target.closest('.flow__node')?.dataset.node));
+    grid.addEventListener('pointerleave', () => highlight(grid, null));
+    resizeObserver.observe(grid);
+  });
+
+  window.addEventListener('load', () => document.querySelectorAll('.flow__grid').forEach(draw));
+
+  const lightbox = document.querySelector('.lightbox');
+
+  document.addEventListener('click', (event) => {
+    const zoom = event.target.closest('.flow__zoom');
+    if (!zoom) return;
+    lightbox.querySelector('.lightbox__image').src = zoom.dataset.src;
+    lightbox.querySelector('.lightbox__caption').textContent = zoom.dataset.label;
+    lightbox.showModal();
+  });
+
+  lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox || event.target.closest('.lightbox__close')) lightbox.close();
+  });
+
+  const tabs = [...document.querySelectorAll('.tabs__tab')];
+
+  const showWeek = (week) => {
+    const active = tabs.find((tab) => tab.dataset.week === week) ?? tabs[0];
+
+    tabs.forEach((tab) => {
+      const selected = tab === active;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      document.getElementById(tab.getAttribute('aria-controls')).hidden = !selected;
+    });
+  };
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => {
+      history.replaceState(null, '', `#${tab.dataset.week}`);
+      showWeek(tab.dataset.week);
+    });
+
+    tab.addEventListener('keydown', (event) => {
+      const step = { ArrowRight: 1, ArrowLeft: -1 }[event.key];
+      if (!step) return;
+      const next = tabs[(index + step + tabs.length) % tabs.length];
+      next.focus();
+      next.click();
+    });
+  });
+
+  window.addEventListener('hashchange', () => showWeek(location.hash.slice(1)));
+  showWeek(location.hash.slice(1));
 </script>
 
 </body>

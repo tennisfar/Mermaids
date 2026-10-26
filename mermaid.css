@@ -1,60 +1,196 @@
-html,
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: "Roboto", sans-serif;
     font-size: 14px;
-    padding: 0;
     margin: 0;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-
-.title,
-.version {
+    min-height: 100vh;
     color: #2a2a2e;
-    font-size: 14px;
-    position: absolute;
-    display: inline-block;
-    z-index: 1;
-    top: 5px;
-    left: 5px;
-    padding: 5px 7px;
+    background: linear-gradient(160deg, #f7f7fb 0%, #e9ecf3 100%) fixed;
 }
 
-.version {
-    font-size: 10px;
-    top: 22px;
+/* Fit pages scale the whole diagram into the viewport instead of scrolling */
+.page--fit {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
-.home {
-    color: #5f5f6c;
-    position: absolute;
-    display: inline-block;
+.topbar {
+    position: sticky;
+    top: 0;
     z-index: 10;
-    bottom: 5px;
-    left: 5px;
-    padding: 5px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    color: #fff;
+    background: linear-gradient(135deg, #4a4a55, #6a6a78);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 }
 
-.home:hover {
-    color: black;
+.topbar--klublotto {
+    background: linear-gradient(135deg, #6b2fa3, #9b4fd6);
+}
+
+.topbar--numbergames {
+    background: linear-gradient(135deg, #c50005, #e5383b);
+}
+
+.topbar__home {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.15);
+    transition: background-color 0.2s;
+}
+
+.topbar__home:hover,
+.topbar__home:focus-visible {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.topbar__heading {
+    min-width: 0;
+}
+
+.topbar__group {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+.topbar__title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.topbar__version {
+    flex-shrink: 0;
+    margin-left: auto;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.tabs {
+    display: flex;
+    gap: 4px;
+    margin: 12px 12px 0;
+    padding: 4px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.tabs__tab {
+    flex: 1;
+    padding: 8px 16px;
+    border: 0;
+    border-radius: 8px;
+    font: inherit;
+    text-align: center;
+    color: #2a2a2e;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.tabs__tab:hover {
+    background-color: #f2f2f7;
+}
+
+.tabs__tab[aria-selected="true"] {
+    color: #fff;
+    background: linear-gradient(135deg, #4a4a55, #6a6a78);
+}
+
+.tabs--numbergames .tabs__tab[aria-selected="true"] {
+    background: linear-gradient(135deg, #c50005, #e5383b);
+}
+
+.tabs--klublotto .tabs__tab[aria-selected="true"] {
+    background: linear-gradient(135deg, #6b2fa3, #9b4fd6);
+}
+
+.tabs__name {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.tabs__date {
+    display: block;
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+.diagram {
+    margin: 12px;
+    padding: 12px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    overflow: auto;
+}
+
+.diagram--fit {
+    flex: 1;
+    min-height: 0;
 }
 
 .mermaid {
-    position: absolute;
-    z-index: 2;
-    inset: 6px;
     margin: 0 !important;
     padding: 0 !important;
-    width: calc(100vw - 20px) !important;
-    height: calc(100vh - 20px) !important;
-    /*background-color: rgba(255, 255, 255, 0.7) !important;*/
 }
 
-.mermaid svg {
+.diagram--fit .mermaid {
+    height: 100%;
+}
+
+.diagram--fit .mermaid svg {
     max-height: 100% !important;
 }
 
 .mermaid * {
     font-family: "Roboto", sans-serif !important;
+}
+
+@media (min-width: 720px) {
+    .topbar {
+        padding: 12px 24px;
+    }
+
+    .topbar__title {
+        font-size: 19px;
+    }
+
+    .tabs {
+        display: inline-flex;
+        margin: 24px 24px 0;
+    }
+
+    .tabs__tab {
+        flex: none;
+        min-width: 180px;
+    }
+
+    .diagram {
+        margin: 24px;
+        padding: 20px;
+    }
 }
