@@ -244,7 +244,7 @@
     <span class="topbar__group">Numbergames</span>
     <h1 class="topbar__title">Jule Lotto</h1>
 </div>
-<span class="topbar__version">Vers. 20261026.2</span>
+<span class="topbar__version">Vers. 20261029.1</span>
 </header>
 <nav class="tabs tabs--numbergames" role="tablist" aria-label="Uge">
     <button class="tabs__tab" type="button" role="tab" id="tab-week51" aria-controls="panel-week51" data-week="week51" data-uitest-id="julelotto-tab-week51">
@@ -283,15 +283,19 @@
         { id: 'Lotto_Confirm', row: 6, col: 1, img: 'week51-landingpage-lotto-rows-weeks-popover-nej-joker-confirm.png', h: 142, label: 'Bekræftside' },
         { id: 'Lotto_Receipt', row: 7, col: 1, img: 'week51-landingpage-lotto-rows-weeks-popover-nej-joker-confirm-receipt.png', h: 125, label: 'En kvittering - Lotto' },
         { id: 'Lotto_JokerWithJuleLotto', row: 5, col: 2, label: 'Joker tilvalg', status: 'missing' },
-        { id: 'Lotto_ConfirmWithJuleLotto', row: 6, col: 2, img: 'week51-landingpage-lotto-rows-weeks-popover-ja-joker-confirm.png', h: 125, label: 'Bekræftside' },
+        { id: 'Lotto_ConfirmWithJuleLotto', row: 6, col: 2, label: 'Bekræftside - Lotto og Jule Lotto', status: 'missing' },
         { id: 'Lotto_ReceiptWithJuleLotto', row: 7, col: 2, label: 'To kvitteringer - Lotto + Jule Lotto', status: 'missing' },
         { id: 'LottoWeekAndJuleLotto_Info', row: 4, col: 3, label: 'Info om Jule Lotto popup', status: 'missing-dark' },
         { id: 'LottoWeekAndJuleLotto_Joker', row: 5, col: 3, label: 'Joker tilvalg', status: 'missing' },
-        { id: 'LottoWeekAndJuleLotto_Confirm', row: 6, col: 3, img: 'week51-landingpage-lotto-rows-weeks-julelotto-info-joker-confirm.png', h: 125, label: 'Bekræftside' },
-        { id: 'LottoWeekAndJuleLotto_Receipt', row: 7, col: 3, label: 'En kvittering - Lotto + Jule Lotto', status: 'missing' },
-        { id: 'JuleLotto_Info', row: 2, col: 4, img: 'week51-landingpage-julelotto-onboarding.png', h: 125, label: 'Jule Lotto onboarding' },
-        { id: 'JuleLotto_Confirm', row: 3, col: 4, img: 'week51-landingpage-julelotto-onboarding-confirm.png', h: 125, label: 'Bekræftside' },
-        { id: 'JuleLotto_Receipt', row: 4, col: 4, img: 'week51-landingpage-julelotto-onboarding-confirm-receipt.png', h: 166, label: 'En kvittering - Jule Lotto' },
+        { id: 'LottoWeekAndJuleLotto_Confirm', row: 6, col: 3, label: 'Bekræftside - Lotto og Jule Lotto (2 trækninger)', status: 'missing' },
+        { id: 'LottoWeekAndJuleLotto_Receipt', row: 7, col: 3, label: 'En kvittering - Lotto og Jule Lotto (2 trækninger)', status: 'missing' },
+        { id: 'JuleLotto_Rows', row: 2, col: 4, img: 'week51-landingpage-julelotto-rows.png', h: 183, label: 'Antal rækker' },
+        { id: 'JuleLotto_Info', row: 3, col: 4, span: 2, img: 'week51-landingpage-julelotto-onboarding.png', h: 125, label: 'Jule Lotto onboarding' },
+        { id: 'JuleLotto_LottoDrawUpsell', row: 4, col: 4, span: 2, img: 'week51-landingpage-julelotto-rows-onboarding-upsell.png', h: 125, label: 'Tilføj Lotto?', undecided: true },
+        { id: 'JuleLotto_Confirm', row: 5, col: 4, img: 'week51-landingpage-julelotto-onboarding-confirm.png', h: 125, label: 'Bekræftside' },
+        { id: 'JuleLotto_Receipt', row: 6, col: 4, img: 'week51-landingpage-julelotto-onboarding-confirm-receipt.png', h: 166, label: 'En kvittering - Jule Lotto' },
+        { id: 'JuleLotto_ConfirmWithLotto', row: 5, col: 5, label: 'Bekræftside - Lotto og Jule Lotto', status: 'missing' },
+        { id: 'JuleLotto_ReceiptWithLotto', row: 6, col: 5, label: 'To kvitteringer - Lotto og Jule Lotto', status: 'missing' },
       ],
       // [from, to, label, dashed]
       edges: [
@@ -309,9 +313,13 @@
         ['LottoWeekAndJuleLotto_Info', 'LottoWeekAndJuleLotto_Joker', 'Næste', true],
         ['LottoWeekAndJuleLotto_Joker', 'LottoWeekAndJuleLotto_Confirm', 'Nej tak'],
         ['LottoWeekAndJuleLotto_Confirm', 'LottoWeekAndJuleLotto_Receipt', 'Bekræft'],
-        ['LandingPage', 'JuleLotto_Info', 'Jule Lotto'],
-        ['JuleLotto_Info', 'JuleLotto_Confirm', 'Næste'],
+        ['LandingPage', 'JuleLotto_Rows', 'Jule Lotto'],
+        ['JuleLotto_Rows', 'JuleLotto_Info', '10 rækker'],
+        ['JuleLotto_Info', 'JuleLotto_LottoDrawUpsell', 'Næste'],
+        ['JuleLotto_LottoDrawUpsell', 'JuleLotto_Confirm', 'Nej tak'],
+        ['JuleLotto_LottoDrawUpsell', 'JuleLotto_ConfirmWithLotto', 'Ja tak'],
         ['JuleLotto_Confirm', 'JuleLotto_Receipt', 'Bekræft'],
+        ['JuleLotto_ConfirmWithLotto', 'JuleLotto_ReceiptWithLotto', 'Bekræft'],
       ],
     },
     week52: {
@@ -321,21 +329,21 @@
         { id: 'Lotto_Rows', row: 2, col: 2, img: 'week52-landingpage-lotto-rows.png', h: 172, label: 'Antal rækker' },
         { id: 'Lotto_Weeks', row: 3, col: 2, img: 'week52-landingpage-lotto-rows-weeks.png', h: 113, label: 'Antal uger' },
         { id: 'LottoJuleLotto_Info', row: 4, col: 1, span: 2, img: 'week52-landingpage-lotto-rows-weeks-julelotto-onboarding.png', h: 125, label: 'Jule Lotto onboarding' },
-        { id: 'LottoJuleLotto_AddLotto', row: 5, col: 1, span: 2, img: 'week52-landingpage-lotto-rows-weeks-julelotto-onboarding-addlotto.png', h: 125, label: 'Tilføj Lotto?' },
+        { id: 'LottoJuleLotto_AddLotto', row: 5, col: 1, span: 2, img: 'week52-landingpage-lotto-rows-weeks-julelotto-onboarding-addlotto.png', h: 125, label: 'Tilføj Lotto?', undecided: true },
         { id: 'LottoJuleLotto_Confirm', row: 6, col: 1, img: 'week52-landingpage-lotto-rows-weeks-julelotto-onboarding-addlotto-nej-confirm.png', h: 125, label: 'Bekræftside' },
         { id: 'LottoJuleLotto_Receipt', row: 7, col: 1, img: 'week52-landingpage-lotto-rows-weeks-julelotto-onboarding-addlotto-nej-confirm-receipt.png', h: 166, label: 'En kvittering - Jule Lotto' },
-        { id: 'LottoJuleLotto_ConfirmWithLotto', row: 6, col: 2, img: 'week52-landingpage-lotto-rows-weeks-julelotto-onboarding-addlotto-ja-confirm.png', h: 125, label: 'Bekræftside' },
+        { id: 'LottoJuleLotto_ConfirmWithLotto', row: 6, col: 2, label: 'Bekræftside - Jule Lotto og Lotto', status: 'missing' },
         { id: 'LottoJuleLotto_ReceiptWithLotto', row: 7, col: 2, img: 'week52-landingpage-lotto-rows-weeks-julelotto-onboarding-addlotto-ja-confirm-receipt.png', h: 184, label: 'To kvitteringer - Jule Lotto og Lotto' },
         { id: 'LottoJuleLottoAndWeek_Info', row: 4, col: 3, img: 'week52-landingpage-lotto-rows-weeks-julelotto-1uge-onboarding.png', h: 125, label: 'Jule Lotto onboarding' },
         { id: 'LottoJuleLottoAndWeek_Joker', row: 5, col: 3, img: 'week52-landingpage-lotto-rows-weeks-julelotto-1uge-onboarding-joker.png', h: 150, label: 'Joker tilvalg' },
-        { id: 'LottoJuleLottoAndWeek_Confirm', row: 6, col: 3, img: 'week52-landingpage-lotto-rows-weeks-julelotto-1uge-onboarding-nej-joker-confirm.png', h: 125, label: 'Bekræftside' },
-        { id: 'LottoJuleLottoAndWeek_Receipt', row: 7, col: 3, label: 'To kvitteringer - Lotto og Jule Lotto', status: 'missing' },
+        { id: 'LottoJuleLottoAndWeek_Confirm', row: 6, col: 3, label: 'Bekræftside - Jule Lotto og Lotto (2 trækninger)', status: 'missing' },
+        { id: 'LottoJuleLottoAndWeek_Receipt', row: 7, col: 3, label: 'En kvittering - Jule Lotto og Lotto (2 trækninger)', status: 'missing' },
         { id: 'JuleLotto_Rows', row: 2, col: 4, img: 'week52-landingpage-julelotto-rows.png', h: 183, label: 'Antal rækker' },
         { id: 'JuleLotto_Info', row: 3, col: 4, span: 2, img: 'week52-landingpage-julelotto-rows-onboarding.png', h: 125, label: 'Jule Lotto onboarding' },
         { id: 'JuleLotto_LottoDrawUpsell', row: 4, col: 4, span: 2, img: 'week52-landingpage-julelotto-rows-onboarding-upsell.png', h: 125, label: 'Tilføj Lotto?', undecided: true },
         { id: 'JuleLotto_Confirm', row: 5, col: 4, img: 'week52-landingpage-julelotto-rows-onboarding-upsell-nej-confirm.png', h: 125, label: 'Bekræftside' },
         { id: 'JuleLotto_Receipt', row: 6, col: 4, img: 'week52-landingpage-julelotto-rows-onboarding-upsell-nej-confirm-receipt.png', h: 166, label: 'En kvittering - Jule Lotto' },
-        { id: 'JuleLotto_ConfirmWithLotto', row: 5, col: 5, img: 'week52-landingpage-julelotto-rows-onboarding-upsell-ja-confirm.png', h: 125, label: 'Bekræftside' },
+        { id: 'JuleLotto_ConfirmWithLotto', row: 5, col: 5, label: 'Bekræftside - Jule Lotto og Lotto', status: 'missing' },
         { id: 'JuleLotto_ReceiptWithLotto', row: 6, col: 5, img: 'week52-landingpage-julelotto-rows-onboarding-upsell-ja-confirm-receipt.png', h: 184, label: 'To kvitteringer - Jule Lotto og Lotto' },
       ],
       edges: [
@@ -348,7 +356,7 @@
         ['LottoJuleLotto_AddLotto', 'LottoJuleLotto_ConfirmWithLotto', 'Ja tak'],
         ['LottoJuleLotto_Confirm', 'LottoJuleLotto_Receipt', 'Bekræft'],
         ['LottoJuleLotto_ConfirmWithLotto', 'LottoJuleLotto_ReceiptWithLotto', 'Bekræft'],
-        ['Lotto_Weeks', 'LottoJuleLottoAndWeek_Info', 'Jule Lotto og 1 uge'],
+        ['Lotto_Weeks', 'LottoJuleLottoAndWeek_Info', '1 uge og Jule Lotto'],
         ['LottoJuleLottoAndWeek_Info', 'LottoJuleLottoAndWeek_Joker', 'Næste'],
         ['LottoJuleLottoAndWeek_Joker', 'LottoJuleLottoAndWeek_Confirm', 'Nej tak'],
         ['LottoJuleLottoAndWeek_Confirm', 'LottoJuleLottoAndWeek_Receipt', 'Bekræft'],
